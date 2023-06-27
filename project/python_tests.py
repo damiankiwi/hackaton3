@@ -8,10 +8,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 import pytest
 import time
-import os
 from pytest_testrail.plugin import pytestrail
-from datetime import datetime
-
+#from datetime import datetime
+#import os
 # # Konfiguracja
 # testrail_url = 'https://kiwipythontest.testrail.io/'
 # testrail_user = 'kiwipythontest@gmail.com'
@@ -73,10 +72,11 @@ def test_urls():
         print(f'{name}: Status HTTP {status_code}')
 
 if __name__ == "__main__":
-    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    report_path = f"report_{now}.html"
-    pytest.main(['-v', '--html=' + report_path, '--testrail', f'--testrail-url={testrail_url}',
-                 f'--testrail-user={testrail_user}', f'--testrail-password={testrail_password}',
-                 f'--testrail-project-id={testrail_project_id}', f'--testrail-suite-id={testrail_suite_id}'])
+    # now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    # report_path = f"report_{now}.html"
+    pytest.main()
+    # pytest.main(['-v', '--html=' + report_path, '--testrail', f'--testrail-url={testrail_url}',
+    #              f'--testrail-user={testrail_user}', f'--testrail-password={testrail_password}',
+    #              f'--testrail-project-id={testrail_project_id}', f'--testrail-suite-id={testrail_suite_id}'])
 
 
