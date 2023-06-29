@@ -12,11 +12,11 @@ from pytest_testrail.plugin import pytestrail
 import os
 
 # Konfiguracja
-testrail_url =
-testrail_user =
-testrail_password =
-testrail_project_id = 3
-testrail_suite_id = 21
+# testrail_url =
+# testrail_user =
+# testrail_password =
+# testrail_project_id = 3
+# testrail_suite_id = 21
 
 pytest_command = f"pytest -v --testrail --testrail-url={testrail_url} --testrail-user={testrail_user} --testrail-password={testrail_password} --testrail-project-id={testrail_project_id} --testrail-suite-id={testrail_suite_id}"
 
