@@ -9,43 +9,45 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pytest
 import time
 from pytest_testrail.plugin import pytestrail
+import os
 
+# Konfiguracja
+testrail_url =
+testrail_user =
+testrail_password =
+testrail_project_id = 3
+testrail_suite_id = 21
 
-@pytest.fixture(scope='session')
-def chrome_options():
+pytest_command = f"pytest -v --testrail --testrail-url={testrail_url} --testrail-user={testrail_user} --testrail-password={testrail_password} --testrail-project-id={testrail_project_id} --testrail-suite-id={testrail_suite_id}"
+
+os.system(pytest_command)
+
+@pytestrail.case('C2407')
+def test_performance_loading_speed():
+    print()
     options = ChromeOptions()
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    return options
-
-@pytest.fixture(scope='session')
-def chrome_driver(chrome_options):
-    driver_path = ChromeDriverManager().install()
-    driver = webdriver.Chrome(service=ChromeService(executable_path=driver_path), options=chrome_options)
-    yield driver
-    driver.quit()
-
-@pytest.mark.html
-@pytestrail.case('C2407')
-def test_performance_loading_speed(chrome_driver):
-    print()
+    driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()), options=options)
     start_time = time.time()
-    chrome_driver.get("https://testuj.pl/")
+    driver.get("https://testuj.pl/")
     end_time = time.time()
     load_time = end_time - start_time
+    driver.quit()
     print(f'Czas ładowania strony: {load_time} sekund')
 
-@pytest.mark.html
+
 @pytestrail.case('C2405')
-def test_chrome(chrome_driver):
-    chrome_driver.get('https://testuj.pl/')
-    wait = WebDriverWait(chrome_driver, 10)
+def test_chrome():
+    driver = webdriver.Chrome(service=ChromeService(executable_path=ChromeDriverManager().install()))
+    driver.get('https://testuj.pl/')
+    wait = WebDriverWait(driver, 10)
     cookie = (By.CSS_SELECTOR, "[class='cookie']")
     wait.until(EC.element_to_be_clickable(cookie))
-    chrome_driver.find_element(By.CSS_SELECTOR, "[class='agree right']").click()
-    chrome_driver.maximize_window()
+    driver.find_element(By.CSS_SELECTOR, "[class='agree right']").click()
+    driver.maximize_window()
+    driver.quit()
 
-@pytest.mark.html
 @pytestrail.case('C2406')
 def test_urls():
     print()
@@ -64,9 +66,8 @@ def test_urls():
         status_code = response.status_code
         print(f'{name}: Status HTTP {status_code}')
 
+    return True
+
+
 if __name__ == "__main__":
-
     pytest.main()
-
-
-
